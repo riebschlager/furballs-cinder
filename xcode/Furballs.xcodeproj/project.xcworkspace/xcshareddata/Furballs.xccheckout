@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>70A8A540-6C60-4CA9-81CE-8FCE3D769114</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Furballs</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>127E3B60-A8E2-4EE4-B3EB-75BA3BC1EBC2</key>
+		<string>https://github.com/riebschlager/furballs-cinder.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>xcode/Furballs.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>127E3B60-A8E2-4EE4-B3EB-75BA3BC1EBC2</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/riebschlager/furballs-cinder.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>127E3B60-A8E2-4EE4-B3EB-75BA3BC1EBC2</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>127E3B60-A8E2-4EE4-B3EB-75BA3BC1EBC2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>furballs-cinder</string>
+		</dict>
+	</array>
+</dict>
+</plist>
