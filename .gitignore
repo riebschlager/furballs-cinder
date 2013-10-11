@@ -13,4 +13,4 @@
 *.a
 
 xcode/build
-
+.DS_Store
