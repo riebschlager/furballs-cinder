@@ -18,7 +18,7 @@ using namespace ci::app;
 using namespace std;
 
 class FurballsApp : public AppBasic {
-  public:
+public:
     void prepareSettings(Settings *settings);
 	void setup();
     void mouseMove( MouseEvent event );
@@ -29,12 +29,12 @@ class FurballsApp : public AppBasic {
 	void update();
 	void draw();
     Perlin mPerlin;
-    list<FurPoint> points;
-    bool drawing = false;
-    Surface texture;
-    Vec2i mouseLoc;
-    float stepX, stepY, stepZ;
-	params::InterfaceGlRef	mParams;
+    list<FurPoint> mParticles;
+    bool mIsDrawing;
+    Surface mTexture;
+    Vec2i mMousePos;
+    float mStepX, mStepY, mStepZ;
+	params::InterfaceGlRef mParams;
 };
 
 void FurballsApp::keyDown(KeyEvent event){
@@ -55,59 +55,65 @@ void FurballsApp::prepareSettings(Settings *settings) {
 }
 
 void FurballsApp::setup() {
+    mIsDrawing = false;
     mPerlin = Perlin();
+    mPerlin.setOctaves(2);
     gl::clear(Color(0.0f, 0.0f, 0.0f));
-    texture = loadImage( loadUrl(Url("http://img.ffffound.com/static-data/assets/6/08616aac741d9fc92c9f0e823ffbe6505b700c25_m.gif") ));
-    mouseLoc = Vec2i( getWindowCenter() );
-    stepX = 0.001f;
-    stepY = 0.001f;
-    stepZ = 0.001f;
+    mTexture = loadImage( loadUrl(Url("http://img.ffffound.com/static-data/assets/6/d5f1bbd28cee87195cbc84bd4988c35501d16e3a_m.jpg") ));
+    mMousePos = Vec2i( getWindowCenter() );
+    mStepX = 0.001f;
+    mStepY = 0.001f;
+    mStepZ = 0.001f;
     mParams = params::InterfaceGl::create( "Furballs", Vec2i( 300, 100 ) );
-    mParams->addParam( "stepX", &stepX, "step=0.001 precision=6");
-    mParams->addParam( "stepY", &stepY, "step=0.001 precision=6");
-    mParams->addParam( "stepZ", &stepZ, "step=0.001 precision=6");
+    mParams->addParam( "stepX", &mStepX, "step=0.0001 precision=4");
+    mParams->addParam( "stepY", &mStepY, "step=0.0001 precision=4");
+    mParams->addParam( "stepZ", &mStepZ, "step=0.0001 precision=4");
 }
 
 void FurballsApp::mouseDown( MouseEvent event) {
-    drawing = true;
+    mIsDrawing = true;
 }
 
 void FurballsApp::mouseUp( MouseEvent event) {
-    drawing = false;
+    mIsDrawing = false;
 }
 
 void FurballsApp::mouseMove( MouseEvent event ) {
-    mouseLoc = event.getPos();
+    mMousePos = event.getPos();
 }
 
 void FurballsApp::mouseDrag( MouseEvent event ) {
-    mouseLoc = event.getPos();
+    mMousePos = event.getPos();
 }
 
 void FurballsApp::update() {
-    if( drawing ) {
+    if( mIsDrawing ) {
         Vec2f velocity = Vec2f::zero();
         float lifetime = randFloat( 20.0f, 1000.0f );
         float radius = randFloat( 1.0f, 5.0f );
-        float randX = randInt( 0, texture.getWidth() );
-        float randY = randInt( 0, texture.getHeight() );
+        float randX = randInt( 0, mTexture.getWidth() );
+        float randY = randInt( 0, mTexture.getHeight() );
         Vec2i randLoc( randX, randY );
-        ColorA8u c = texture.getPixel( randLoc );
-        points.push_back( FurPoint( mouseLoc, velocity, lifetime, radius, c ) );
+        ColorA8u c = mTexture.getPixel( randLoc );
+        mParticles.push_back( FurPoint( mMousePos, velocity, lifetime, radius, c ) );
     }
 }
 
 void FurballsApp::draw() {
-    for(list<FurPoint>::iterator p = points.begin(); p != points.end(); ++p){
-        if(!p->isDead) {
-            for(int i = 0; i < 1000; i++){
-                (*p).update(mPerlin,stepX,stepY,stepZ);
-            p->draw();
+    for(list<FurPoint>::iterator p = mParticles.begin(); p != mParticles.end(); ){
+        if(p->isDead) {
+            p = mParticles.erase( p );
+        }
+        else {
+            for(int i = 0; i < 100; i ++){
+                p->update( mPerlin, mStepX, mStepY, mStepZ );
+                p->draw();
             }
+            ++p;
         }
     }
     mParams->draw();
-
+    
 }
 
 CINDER_APP_BASIC( FurballsApp, RendererGl )

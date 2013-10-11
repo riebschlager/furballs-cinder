@@ -19,9 +19,10 @@ void FurPoint::update(const Perlin &perlin, float stepX, float stepY, float step
     if (1.0f - age / lifetime <= 0.0f) isDead = true;
     if (position.x < 0 || position.x > getWindowWidth()) isDead = true;
     if (position.y < 0 || position.y > getWindowHeight()) isDead = true;
+    
     noiseFloat = perlin.fBm( position.x * stepX, position.y * stepY, getElapsedFrames() * stepZ );
-    noiseVec.x = cos(((noiseFloat) * M_PI * 2.0f) * 10.0f);
-    noiseVec.y = sin(((noiseFloat) * M_PI * 2.0f) * 10.0f);
+    noiseVec.x = cos(((noiseFloat) * M_PI_2) * 10.0f);
+    noiseVec.y = sin(((noiseFloat) * M_PI_2) * 10.0f);
     velocity += noiseVec;
     velocity *= 0.5f;
     position += velocity;
@@ -29,8 +30,8 @@ void FurPoint::update(const Perlin &perlin, float stepX, float stepY, float step
 }
 
 void FurPoint::draw(){
-    //float r = ci::lmap(age, 0.1f, lifetime, 1.0f, radius);
+    float r = ci::lmap(age, 0.1f, lifetime, 1.0f, radius);
     gl::enable(GL_LINE_SMOOTH);
     gl::color(kuler);
-    gl::drawSolidCircle(position, 1.0f);
+    gl::drawSolidCircle(position, r);
 }
